@@ -113,3 +113,29 @@ for length in range(1, 26):
         if len(value) == length:
             sorted_clean_questions.append(questions_into_int[idx])
             sorted_clean_answers.append(answers_into_int[idx])
+
+
+def model_inputs():
+    inputs = tf.placeholder(tf.int32, [None, None], name="input")
+    targets = tf.placeholder(tf.int32, [None, None], name="target")
+    lr = tf.placeholder(tf.float32, [None, None], name="learning_rate")
+    keep_prob = tf.placeholder(tf.float32, [None, None], name="keep_prob")  # dropout rate
+    return inputs, targets, lr, keep_prob
+
+
+epochs = 100
+batch_size = 32
+rnn_size = 1024
+num_layers = 3
+encoding_embedding_size = 1024
+decoding_embedding_size = 1024
+learning_rate = 0.001
+learning_rate_decay = 0.9
+min_learning_rate = 0.0001
+keep_probability = 0.5
+
+tf.reset_default_graph()
+session = tf.InteractiveSession()
+inputs, targets, lr, keep_prob = model_inputs()
+sequence_length = tf.placeholder_with_default(25, None, name='sequence_length')
+input_shape = tf.shape(inputs)
